@@ -18,11 +18,13 @@ RUN apt-get update \
     && mkdir -p /usr/share/keyrings \
     && curl -fsSL https://repo.zabbix.com/zabbix-official-repo.key \
        | gpg --dearmor -o /usr/share/keyrings/zabbix.gpg \
-    && echo "deb [signed-by=/usr/share/keyrings/zabbix.gpg] https://repo.zabbix.com/zabbix/8.0/debian bookworm main" \
+    && printf '%s\n' \
+       'deb [signed-by=/usr/share/keyrings/zabbix.gpg] https://repo.zabbix.com/zabbix/8.0/release/debian/ bookworm main' \
        > /etc/apt/sources.list.d/zabbix.list \
     && curl -fsSL https://download.ceph.com/keys/release.asc \
        | gpg --dearmor -o /usr/share/keyrings/ceph.gpg \
-    && echo "deb [signed-by=/usr/share/keyrings/ceph.gpg] https://download.ceph.com/debian-20.2.4 bookworm main" \
+    && printf '%s\n' \
+       'deb [signed-by=/usr/share/keyrings/ceph.gpg] https://download.ceph.com/debian-20.2.4 bookworm main' \
        > /etc/apt/sources.list.d/ceph.list \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
