@@ -14,25 +14,18 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        ca-certificates \
        curl \
-       gnupg \
-    && mkdir -p /usr/share/keyrings \
-    && curl -fsSL https://repo.zabbix.com/zabbix-official-repo.key \
-       | gpg --dearmor -o /usr/share/keyrings/zabbix.gpg \
+    && curl -O /etc/apt/keyrings/zabbix.asc https://repo.zabbix.com/zabbix-official-repo.key \
+    && chmod 0644 /etc/apt/keyrings/zabbix.asc \
     && printf '%s\n' \
-       'deb [signed-by=/usr/share/keyrings/zabbix.gpg] https://repo.zabbix.com/zabbix/8.0/release/debian/ bookworm main' \
-       > /etc/apt/sources.list.d/zabbix.list \
-    && curl -fsSL https://download.ceph.com/keys/release.asc \
-       | gpg --dearmor -o /usr/share/keyrings/ceph.gpg \
-    && printf '%s\n' \
-       'deb [signed-by=/usr/share/keyrings/ceph.gpg] https://download.ceph.com/debian-20.2.4 bookworm main' \
-       > /etc/apt/sources.list.d/ceph.list \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends \
-       ceph \
-       zabbix-agent2 \
-       zabbix-agent2-plugin-ceph \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    'Components: main' \
+    'x-repolib-Name: zabbix-agent2' \
+    'Signed-By: /etc/apt/keyrings/zabbix.asc' \
+    'Suites: trixie' \
+    'Types: deb' \
+    'URIs: https://repo.zabbix.com/zabbix/8.0/unstable/debian' \
+    > /etc/apt/sources.list.d/zabbix-agent2.sources \
+    && apt update \
+    && apt install zabbix-agent2 zabbix-agent2-plugin-ceph 
 
 COPY --from=install /git-version.txt /git-version.txt
 
