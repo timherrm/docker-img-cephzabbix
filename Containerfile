@@ -28,7 +28,7 @@ RUN apt-get update \
 # Copy git-verion.txt from install step
 COPY --from=install /git-version.txt /git-version.txt
 
-EXPOSE 10050/tcp
+EXPOSE 10051/tcp
 
 ENTRYPOINT ["/usr/sbin/zabbix_agent2"]
 CMD ["-f", "-c", "/etc/zabbix/zabbix_agent2.conf"]
