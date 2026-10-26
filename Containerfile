@@ -15,17 +15,21 @@ RUN apt-get update \
        ca-certificates \
        curl \
     && curl -O /etc/apt/keyrings/zabbix.asc https://repo.zabbix.com/zabbix-official-repo.key \
-    && chmod 0644 /etc/apt/keyrings/zabbix.asc \
-    && printf '%s\n' \
+    && chmod 0644 /etc/apt/keyrings/zabbix.asc
+
+RUN printf '%s\n' \
     'Components: main' \
     'x-repolib-Name: zabbix-agent2' \
     'Signed-By: /etc/apt/keyrings/zabbix.asc' \
     'Suites: trixie' \
     'Types: deb' \
     'URIs: https://repo.zabbix.com/zabbix/8.0/unstable/debian' \
-    > /etc/apt/sources.list.d/zabbix-agent2.sources \
-    && apt update \
-    && apt install zabbix-agent2 zabbix-agent2-plugin-ceph 
+    > /etc/apt/sources.list.d/zabbix-agent2.sources 
+
+RUN cat /etc/apt/sources.list.d/zabbix-agent2.sources
+
+RUN apt update \
+    && apt install zabbix-agent2 zabbix-agent2-plugin-ceph
 
 COPY --from=install /git-version.txt /git-version.txt
 
