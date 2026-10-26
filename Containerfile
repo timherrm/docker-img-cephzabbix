@@ -25,7 +25,7 @@ RUN apt-get update \
     'URIs: https://repo.zabbix.com/zabbix/8.0/unstable/debian' \
     > /etc/apt/sources.list.d/zabbix-agent2.sources \
     && apt update \
-    && apt install zabbix-agent2 zabbix-agent2-plugin-ceph
+    && apt install -y zabbix-agent2 zabbix-agent2-plugin-ceph
 
 COPY --from=install /git-version.txt /git-version.txt
 
