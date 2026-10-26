@@ -6,7 +6,7 @@ COPY . /git/
 
 RUN find . -type d -name .git -exec git describe --always --dirty > /git-version.txt \;
 
-FROM debian:12-slim
+FROM debian:13-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 
