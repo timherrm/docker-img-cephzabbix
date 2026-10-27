@@ -38,7 +38,7 @@ RUN apt-get update                                                              
     > /etc/apt/preferences.d/testing                                                            \
     && apt update                                                                               \
     && apt install -y zabbix-agent2 zabbix-agent2-plugin-ceph                                   \
-    && apt install -ty testing librados2 
+    && apt install -y -t testing librados2 
 
 COPY --from=install /git-version.txt /git-version.txt
 
